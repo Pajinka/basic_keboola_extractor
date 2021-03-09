@@ -1,11 +1,11 @@
 echo "Preparing KBC test image"
 # set env vars
-$KBC_DEVELOPERPORTAL_USERNAME  = Read-Host -Prompt 'Input your service account user name'
-$KBC_DEVELOPERPORTAL_PASSWORD  = Read-Host -Prompt 'Input your service account pass'
-$KBC_DEVELOPERPORTAL_VENDOR = 'esnerda'
-$KBC_DEVELOPERPORTAL_APP = 'esnerda.ex-gusto-export'
+$KBC_DEVELOPERPORTAL_USERNAME  = ${jmeno_kbc}
+$KBC_DEVELOPERPORTAL_PASSWORD  = ${heslo_kbc}
+$KBC_DEVELOPERPORTAL_VENDOR = 'datasentics'
+$KBC_DEVELOPERPORTAL_APP = 'datasentics.ex-ex-demo'
 $BASE_KBC_CONFIG = '455568423'
-$KBC_STORAGE_TOKEN = Read-Host -Prompt 'Input your storage token'
+$KBC_STORAGE_TOKEN = ${token} 'Input your storage token'
 
 
 #build app

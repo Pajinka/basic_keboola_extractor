@@ -5,6 +5,8 @@ __pycache__/
 example/.project
 example/.pydevproject
 
+.env
+
 # kbc datafolder
 data/
 tmp/
