@@ -67,7 +67,7 @@ class Component(KBCEnvHandler):
             for index, data in zip(range(10), data_load['features']):
                 dw.writerow(data['properties'])
 
-        output_file_geo = DEFAULT_TABLE_DESTINATION + 'properties.csv'
+        output_file_geo = DEFAULT_TABLE_DESTINATION + 'geometry.csv'
         logging.info(output_file_geo)
 
         with open(output_file_geo, 'w') as out:
