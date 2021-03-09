@@ -12,6 +12,7 @@ from kbc.env_handler import KBCEnvHandler
 
 # configuration variables
 KEY_URL_CFG = 'api_url'
+KEY_RESULT_FILE = 'result_file_name'
 
 # #### Keep for debug
 KEY_DEBUG = 'debug'
@@ -21,6 +22,11 @@ MANDATORY_IMAGE_PARS = []
 
 APP_VERSION = '0.0.1'
 
+DEFAULT_TABLE_INPUT = "/data/in/tables/"
+DEFAULT_FILE_INPUT = "/data/in/files/"
+
+DEFAULT_FILE_DESTINATION = "/data/out/files/"
+DEFAULT_TABLE_DESTINATION = "/data/out/tables/"
 
 class Component(KBCEnvHandler):
 
@@ -52,13 +58,19 @@ class Component(KBCEnvHandler):
         fieldnames_prop = data_load['features'][0]['properties'].keys()
         fieldnames_geo = data_load['features'][0]['geometry'].keys()
 
-        with open('properties.csv', 'w') as out:
+        output_file_prop = DEFAULT_TABLE_DESTINATION + 'properties.csv'
+        logging.info(output_file_prop)
+
+        with open(output_file_prop, 'w') as out:
             dw = csv.DictWriter(out, fieldnames=fieldnames_prop)
             dw.writeheader()
             for index, data in zip(range(10), data_load['features']):
                 dw.writerow(data['properties'])
 
-        with open('geometry.csv', 'w') as out:
+        output_file_geo = DEFAULT_TABLE_DESTINATION + 'properties.csv'
+        logging.info(output_file_geo)
+
+        with open(output_file_geo, 'w') as out:
             dw = csv.DictWriter(out, fieldnames=fieldnames_geo)
             dw.writeheader()
             for index, data in zip(range(10), data_load['features']):
