@@ -50,15 +50,15 @@ class Component(KBCEnvHandler):
         res = requests.get(url)
         data_load = res.json()
         fieldnames_prop = data_load['features'][0]['properties'].keys()
-        fieldnames_geo = data_load['features'][0]['properties'].keys()
+        fieldnames_geo = data_load['features'][0]['geometry'].keys()
 
-        with open('properties.csv', 'wb+') as out:
+        with open('properties.csv', 'w') as out:
             dw = csv.DictWriter(out, fieldnames=fieldnames_prop)
             dw.writeheader()
             for index, data in zip(range(10), data_load['features']):
                 dw.writerow(data['properties'])
 
-        with open('geometry.csv', 'wb+') as out:
+        with open('geometry.csv', 'w') as out:
             dw = csv.DictWriter(out, fieldnames=fieldnames_geo)
             dw.writeheader()
             for index, data in zip(range(10), data_load['features']):
