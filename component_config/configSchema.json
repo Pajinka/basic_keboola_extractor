@@ -31,7 +31,7 @@
             "propertyOrder": 3
         },
         "mid": {
-            "type": "integer",
+            "type": "string",
             "title": "Account ID",
             "description": "Subscription ID",
             "propertyOrder": 4
