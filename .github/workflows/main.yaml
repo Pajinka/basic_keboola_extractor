@@ -1,6 +1,6 @@
 name: docker compose push
 on:
-  tags:
+  push:
     branches:
       - main
 
