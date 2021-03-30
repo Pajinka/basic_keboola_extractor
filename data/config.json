@@ -1,0 +1,24 @@
+{
+  "storage": {
+    "input": {
+      "files": [],
+      "tables": [
+        {
+            "source": "in.c-ex-test.properties",
+            "destination": "properties.csv"
+        },
+        {
+            "source": "in.c-ex-test.geometry",
+            "destination": "geometry.csv"
+        }
+      ]
+    },
+    "output": {
+      "files": [],
+      "tables": []
+    }
+  },
+    "image_parameters": {
+    "syrup_url": "https://connection.north-europe.azure.keboola.com/"
+  }
+}
