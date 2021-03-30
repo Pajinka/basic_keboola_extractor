@@ -1,0 +1,22 @@
+name: docker compose push
+on:
+  tags:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Docker login
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USER }}
+          password: ${{ secrets.DOCKER_PASS }}
+      - name: Docker build
+        run: docker-compose build
+      - name: docker push
+        run: docker-compose push
+

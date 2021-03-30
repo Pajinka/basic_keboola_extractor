@@ -9,6 +9,7 @@ import sys
 import requests
 
 from kbc.env_handler import KBCEnvHandler
+import ET_Client
 
 # configuration variables
 KEY_URL_CFG = 'api_url'
@@ -51,30 +52,33 @@ class Component(KBCEnvHandler):
         '''
         Main execution code
         '''
-        url = 'https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2021-01-08&endtime=2021-01-09'
 
-        res = requests.get(url)
-        data_load = res.json()
-        fieldnames_prop = data_load['features'][0]['properties'].keys()
-        fieldnames_geo = data_load['features'][0]['geometry'].keys()
+        stubObj = ET_Client.ET_Client(
+            False, False,
+            {
+                'clientid': os.environ['clientId'],
+                'clientsecret': os.environ['clientSecret'],
+                'authenticationurl': 'https://' + os.environ['SFMC_URI'] + '.auth.marketingcloudapis.com/',
+                'useOAuth2Authentication': 'True',
+                'accountId': os.environ['mid']
+            })
 
-        output_file_prop = DEFAULT_TABLE_DESTINATION + 'properties.csv'
-        logging.info(output_file_prop)
+        getSub = ET_Client.ET_Subscriber()
+        getSub.props = ["SubscriberKey", "EmailAddress", "Status"]
+        getSub.auth_stub = stubObj
+        getResponse = getSub.get()
 
-        with open(output_file_prop, 'w') as out:
-            dw = csv.DictWriter(out, fieldnames=fieldnames_prop)
-            dw.writeheader()
-            for index, data in zip(range(10), data_load['features']):
-                dw.writerow(data['properties'])
+        result = getResponse.results
+        subscribers = [(x['EmailAddress'], x['SubscriberKey'], x['Status']) for x in result]
 
-        output_file_geo = DEFAULT_TABLE_DESTINATION + 'geometry.csv'
-        logging.info(output_file_geo)
+        output_file = DEFAULT_TABLE_DESTINATION + 'subscribers.csv'
+        logging.info(output_file)
 
-        with open(output_file_geo, 'w') as out:
-            dw = csv.DictWriter(out, fieldnames=fieldnames_geo)
-            dw.writeheader()
-            for index, data in zip(range(10), data_load['features']):
-                dw.writerow(data['geometry'])
+        with open(output_file, 'w') as out:
+            csv_out = csv.writer(out)
+            csv_out.writerow(['email', 'subscriber_key', 'status'])
+            for row in subscribers:
+                csv_out.writerow(row))
 
 """
         Main entrypoint
