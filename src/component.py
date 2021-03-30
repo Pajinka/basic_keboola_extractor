@@ -111,6 +111,7 @@ class Component(KBCEnvHandler):
             {
                 'clientid': client_id,
                 'clientsecret': client_secret,
+                'wsdl_file_local_loc': r'<WSDL_PATH>/ExactTargetWSDL.xml',
                 'authenticationurl': 'https://' + subdomain + '.auth.marketingcloudapis.com/',
                 'useOAuth2Authentication': 'True',
                 'accountId': sub_id
