@@ -104,7 +104,7 @@ class Component(KBCEnvHandler):
         client_id = params.get(CLIENT_ID)
         client_secret = params.get(CLIENT_SECRET)
         subdomain = params.get(SUBDOMAIN)
-        mid = params.get(MID)
+        sub_id = params.get(MID)
 
         stubObj = ET_Client.ET_Client(
             False, False,
@@ -113,7 +113,7 @@ class Component(KBCEnvHandler):
                 'clientsecret': client_secret,
                 'authenticationurl': 'https://' + subdomain + '.auth.marketingcloudapis.com/',
                 'useOAuth2Authentication': 'True',
-                'accountId': mid
+                'accountId': sub_id
             })
 
         getSub = ET_Client.ET_Subscriber()
