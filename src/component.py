@@ -6,19 +6,25 @@ Template Component main class.
 import csv
 import logging
 import sys
-import requests
 
 from kbc.env_handler import KBCEnvHandler
 import ET_Client
 
 # configuration variables
-KEY_URL_CFG = 'api_url'
-KEY_RESULT_FILE = 'result_file_name'
+CLIENT_ID = 'clientId'
+CLIENT_SECRET = 'clientSecret'
+SUBDOMAIN = 'subdomain'
+MID = 'mid'
 
 # #### Keep for debug
 KEY_DEBUG = 'debug'
 
-MANDATORY_PARS = []
+MANDATORY_PARS = [
+    CLIENT_ID,
+    CLIENT_SECRET,
+    SUBDOMAIN,
+    MID
+]
 MANDATORY_IMAGE_PARS = []
 
 APP_VERSION = '0.0.1'
@@ -48,19 +54,66 @@ class Component(KBCEnvHandler):
             logging.exception(e)
             exit(1)
 
+    def validate_config_params(self, params):
+        '''
+        Validating if input configuration contain everything needed
+        '''
+
+        # Credentials Conditions
+        # Validate if config is blank
+        if params == {}:
+            logging.error(
+                'Configurations are missing. Please configure your component.')
+            sys.exit(1)
+
+        # Validate if the configuration is empty
+        empty_config = {
+            'clientId': '',
+            '#clientSecret': '',
+            'subdomain': '',
+            'mid': ''
+        }
+
+        if params == empty_config:
+            logging.error(
+                'Configurations are missing. Please configure your component.')
+            sys.exit(1)
+
+        # Validating config parameters
+        if params[CLIENT_ID] == '' or params[CLIENT_SECRET] == '':
+            logging.error(
+                "Credentials missing: Client ID or Client Secret is missing")
+            sys.exit(1)
+        if params[SUBDOMAIN] == '':
+            logging.error(
+                "Subdomain name is missing, check your configuration.")
+            sys.exit(1)
+        if params[MID] == '':
+            logging.error(
+                "Account name is missing, check your configuration.")
+            sys.exit(1)
+
     def run(self):
         '''
         Main execution code
         '''
 
+        params = self.cfg_params  # noqac
+
+        # Get proper list of tables
+        client_id = params.get(CLIENT_ID)
+        client_secret = params.get(CLIENT_SECRET)
+        subdomain = params.get(SUBDOMAIN)
+        mid = params.get(MID)
+
         stubObj = ET_Client.ET_Client(
             False, False,
             {
-                'clientid': os.environ['clientId'],
-                'clientsecret': os.environ['clientSecret'],
-                'authenticationurl': 'https://' + os.environ['SFMC_URI'] + '.auth.marketingcloudapis.com/',
+                'clientid': client_id,
+                'clientsecret': client_secret,
+                'authenticationurl': 'https://' + subdomain + '.auth.marketingcloudapis.com/',
                 'useOAuth2Authentication': 'True',
-                'accountId': os.environ['mid']
+                'accountId': mid
             })
 
         getSub = ET_Client.ET_Subscriber()
@@ -78,7 +131,7 @@ class Component(KBCEnvHandler):
             csv_out = csv.writer(out)
             csv_out.writerow(['email', 'subscriber_key', 'status'])
             for row in subscribers:
-                csv_out.writerow(row))
+                csv_out.writerow(row)
 
 """
         Main entrypoint

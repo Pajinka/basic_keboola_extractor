@@ -1,0 +1,40 @@
+{
+    "type": "object",
+    "title": "Parameters",
+    "required": [
+        "clientId",
+        "#clientSecret",
+        "subdomain",
+        "mid"
+    ],
+    "properties": {
+        "clientId": {
+            "description": "Salesforce Marketing Cloud client ID",
+            "type": "string",
+            "title": "Client ID",
+            "minLength": 1,
+            "propertyOrder": 1
+        },
+        "#clientSecret": {
+            "type": "string",
+            "title": "Client Secret",
+            "format": "password",
+            "description": "Salesforce Marketing Cloud client secret",
+            "default": "",
+            "propertyOrder": 2
+        },
+        "subdomain": {
+            "type": "string",
+            "title": "your subdomain",
+            "description": "SFCM subdomain",
+            "minLength": 1,
+            "propertyOrder": 3
+        },
+        "mid": {
+            "type": "integer",
+            "title": "Account ID",
+            "description": "Subscription ID",
+            "propertyOrder": 4
+        }
+    }
+}
