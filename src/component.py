@@ -12,7 +12,7 @@ import ET_Client
 
 # configuration variables
 CLIENT_ID = 'clientId'
-CLIENT_SECRET = 'clientSecret'
+CLIENT_SECRET = '#clientSecret'
 SUBDOMAIN = 'subdomain'
 MID = 'mid'
 
