@@ -15,6 +15,7 @@ CLIENT_ID = '#clientId'
 CLIENT_SECRET = '#clientSecret'
 SUBDOMAIN = '#subdomain'
 MID = '#mid'
+SCOPE = 'scope'
 
 # #### Keep for debug
 KEY_DEBUG = 'debug'
@@ -105,6 +106,7 @@ class Component(KBCEnvHandler):
         client_secret = params.get(CLIENT_SECRET)
         subdomain = params.get(SUBDOMAIN)
         sub_id = params.get(MID)
+        scope = params.get(SCOPE)
 
         stubObj = ET_Client.ET_Client(
             False, False,
@@ -117,21 +119,40 @@ class Component(KBCEnvHandler):
                 'accountId': sub_id
             })
 
-        getSub = ET_Client.ET_Subscriber()
-        getSub.props = ["SubscriberKey", "EmailAddress", "Status"]
-        getSub.auth_stub = stubObj
-        getResponse = getSub.get()
+        if SCOPE == ('Subscribers').lower():
+            getSub = ET_Client.ET_Subscriber()
+            getSub.props = ["SubscriberKey", "EmailAddress", "Status"]
+            getSub.auth_stub = stubObj
+            getResponse = getSub.get()
+            result = getResponse.results
+            output = [(x['EmailAddress'], x['SubscriberKey'], x['Status']) for x in result]
+        elif SCOPE == ('DataExtensions').lower():
+            de = ET_Client.ET_DataExtension()
+            de.auth_stub = stubObj
+            de.props = ["CustomerKey", "Name", "Description"]
+            getResponse = de.get()
+            result = getResponse.results
+            output = [(x['CustomerKey'], x['Name'], x['Description']) for x in result]
+        elif SCOPE == ('Folders').lower():
+            getFolder = ET_Client.ET_Folder()
+            getFolder.auth_stub = stubObj
+            getFolder.props = ["ID", "Client.ID", "ParentFolder.ID", "ParentFolder.CustomerKey",
+                               "ParentFolder.ObjectID", "ParentFolder.Name", "ParentFolder.Description",
+                               "ParentFolder.ContentType", "ParentFolder.IsActive", "ParentFolder.IsEditable",
+                               "ParentFolder.AllowChildren", "Name", "Description", "ContentType", "IsActive",
+                               "IsEditable", "AllowChildren", "CreatedDate", "ModifiedDate", "Client.ModifiedBy",
+                               "ObjectID", "CustomerKey", "Client.EnterpriseID", "Client.CreatedBy"]
+            getResponse = getFolder.get()
+            result = getResponse.results
+            output = [(x['Name'], x['ID'], x['CustomerKey'], x['ObjectID']) for x in result]
 
-        result = getResponse.results
-        subscribers = [(x['EmailAddress'], x['SubscriberKey'], x['Status']) for x in result]
-
-        output_file = DEFAULT_TABLE_DESTINATION + 'subscribers.csv'
+        output_file = DEFAULT_TABLE_DESTINATION + SCOPE + '.csv'
         logging.info(output_file)
 
         with open(output_file, 'w') as out:
             csv_out = csv.writer(out)
-            csv_out.writerow(['email', 'subscriber_key', 'status'])
-            for row in subscribers:
+            #csv_out.writerow(['email', 'subscriber_key', 'status'])
+            for row in output:
                 csv_out.writerow(row)
 
 """

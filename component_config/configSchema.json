@@ -35,6 +35,12 @@
             "title": "Account ID",
             "description": "Subscription ID",
             "propertyOrder": 4
+        },
+        "scope": {
+            "type": "string",
+            "title": "object",
+            "description": "Interest",
+            "propertyOrder": 5
         }
     }
 }
