@@ -8,7 +8,7 @@
         "mid"
     ],
     "properties": {
-        "clientId": {
+        "#clientId": {
             "description": "Salesforce Marketing Cloud client ID",
             "type": "string",
             "title": "Client ID",
@@ -23,14 +23,14 @@
             "default": "",
             "propertyOrder": 2
         },
-        "subdomain": {
+        "#subdomain": {
             "type": "string",
             "title": "your subdomain",
             "description": "SFCM subdomain",
             "minLength": 1,
             "propertyOrder": 3
         },
-        "mid": {
+        "#mid": {
             "type": "string",
             "title": "Account ID",
             "description": "Subscription ID",

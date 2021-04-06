@@ -11,10 +11,10 @@ from kbc.env_handler import KBCEnvHandler
 import ET_Client
 
 # configuration variables
-CLIENT_ID = 'clientId'
+CLIENT_ID = '#clientId'
 CLIENT_SECRET = '#clientSecret'
-SUBDOMAIN = 'subdomain'
-MID = 'mid'
+SUBDOMAIN = '#subdomain'
+MID = '#mid'
 
 # #### Keep for debug
 KEY_DEBUG = 'debug'
@@ -68,10 +68,10 @@ class Component(KBCEnvHandler):
 
         # Validate if the configuration is empty
         empty_config = {
-            'clientId': '',
+            '#clientId': '',
             '#clientSecret': '',
-            'subdomain': '',
-            'mid': ''
+            '#subdomain': '',
+            '#mid': ''
         }
 
         if params == empty_config:
