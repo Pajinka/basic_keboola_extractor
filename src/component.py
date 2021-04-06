@@ -98,6 +98,8 @@ class Component(KBCEnvHandler):
         '''
         Main execution code
         '''
+        output = []
+        output_title = []
 
         params = self.cfg_params  # noqac
 
