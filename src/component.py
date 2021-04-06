@@ -126,6 +126,7 @@ class Component(KBCEnvHandler):
             getResponse = getSub.get()
             result = getResponse.results
             output = [(x['EmailAddress'], x['SubscriberKey'], x['Status']) for x in result]
+            output_title = ['email', 'subscriber_key', 'status']
         elif scope == ('DataExtensions').lower():
             de = ET_Client.ET_DataExtension()
             de.auth_stub = stubObj
@@ -133,6 +134,7 @@ class Component(KBCEnvHandler):
             getResponse = de.get()
             result = getResponse.results
             output = [(x['CustomerKey'], x['Name'], x['Description']) for x in result]
+            output_title = ['customerkey', 'name', 'description']
         elif scope == ('Folders').lower():
             getFolder = ET_Client.ET_Folder()
             getFolder.auth_stub = stubObj
@@ -145,13 +147,14 @@ class Component(KBCEnvHandler):
             getResponse = getFolder.get()
             result = getResponse.results
             output = [(x['Name'], x['ID'], x['CustomerKey'], x['ObjectID']) for x in result]
+            output_title = ['name', 'id', 'customerkey', 'objectid']
 
         output_file = DEFAULT_TABLE_DESTINATION + scope + '.csv'
         logging.info(output_file)
 
         with open(output_file, 'w') as out:
             csv_out = csv.writer(out)
-            #csv_out.writerow(['email', 'subscriber_key', 'status'])
+            csv_out.writerow(output_title)
             for row in output:
                 csv_out.writerow(row)
 
