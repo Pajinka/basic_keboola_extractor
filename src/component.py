@@ -119,21 +119,21 @@ class Component(KBCEnvHandler):
                 'accountId': sub_id
             })
 
-        if SCOPE == ('Subscribers').lower():
+        if scope == ('Subscribers').lower():
             getSub = ET_Client.ET_Subscriber()
             getSub.props = ["SubscriberKey", "EmailAddress", "Status"]
             getSub.auth_stub = stubObj
             getResponse = getSub.get()
             result = getResponse.results
             output = [(x['EmailAddress'], x['SubscriberKey'], x['Status']) for x in result]
-        elif SCOPE == ('DataExtensions').lower():
+        elif scope == ('DataExtensions').lower():
             de = ET_Client.ET_DataExtension()
             de.auth_stub = stubObj
             de.props = ["CustomerKey", "Name", "Description"]
             getResponse = de.get()
             result = getResponse.results
             output = [(x['CustomerKey'], x['Name'], x['Description']) for x in result]
-        elif SCOPE == ('Folders').lower():
+        elif scope == ('Folders').lower():
             getFolder = ET_Client.ET_Folder()
             getFolder.auth_stub = stubObj
             getFolder.props = ["ID", "Client.ID", "ParentFolder.ID", "ParentFolder.CustomerKey",
@@ -146,7 +146,7 @@ class Component(KBCEnvHandler):
             result = getResponse.results
             output = [(x['Name'], x['ID'], x['CustomerKey'], x['ObjectID']) for x in result]
 
-        output_file = DEFAULT_TABLE_DESTINATION + SCOPE + '.csv'
+        output_file = DEFAULT_TABLE_DESTINATION + scope + '.csv'
         logging.info(output_file)
 
         with open(output_file, 'w') as out:
